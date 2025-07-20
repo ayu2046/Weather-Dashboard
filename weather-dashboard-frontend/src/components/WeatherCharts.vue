@@ -106,6 +106,24 @@ export default {
     }
   },
   computed: {
+    // Get CSS variable color values
+    themeColors() {
+      const root = document.documentElement
+      const getCSS = (varName, fallback) => {
+        const value = getComputedStyle(root).getPropertyValue(varName).trim()
+        return value || fallback
+      }
+      
+      return {
+        primary: getCSS('--color-primary-500', '#3b82f6'),
+        secondary: getCSS('--color-secondary-500', '#0ea5e9'),
+        accent: getCSS('--color-accent-500', '#e879f9'),
+        success: getCSS('--color-success-500', '#22c55e'),
+        warning: getCSS('--color-warning-500', '#f59e0b'),
+        error: getCSS('--color-error-500', '#ef4444')
+      }
+    },
+    
     // Group forecasts by day for timeline view
     dailyForecasts() {
       const days = {}
@@ -131,6 +149,9 @@ export default {
           hour: '2-digit'
         })
       })
+      
+      const primaryColor = this.themeColors.primary
+      const secondaryColor = this.themeColors.secondary
 
       return {
         labels,
@@ -138,22 +159,28 @@ export default {
           {
             label: 'Temperature (°C)',
             data: this.forecasts.slice(0, 20).map(f => f.temperature),
-            borderColor: '#667eea',
-            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+            borderColor: primaryColor,
+            backgroundColor: primaryColor + '20', // 20 is hex for ~12% opacity
             fill: true,
             tension: 0.4,
             pointRadius: 4,
-            pointHoverRadius: 6
+            pointHoverRadius: 6,
+            pointBackgroundColor: primaryColor,
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2
           },
           {
             label: 'Feels Like (°C)',
             data: this.forecasts.slice(0, 20).map(f => f.feels_like),
-            borderColor: '#764ba2',
-            backgroundColor: 'rgba(118, 75, 162, 0.1)',
+            borderColor: secondaryColor,
+            backgroundColor: secondaryColor + '20',
             fill: false,
             tension: 0.4,
             pointRadius: 3,
             pointHoverRadius: 5,
+            pointBackgroundColor: secondaryColor,
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2,
             borderDash: [5, 5]
           }
         ]
@@ -170,6 +197,8 @@ export default {
           hour: '2-digit'
         })
       })
+      
+      const accentColor = this.themeColors.accent
 
       return {
         labels,
@@ -177,12 +206,15 @@ export default {
           {
             label: 'Humidity (%)',
             data: this.forecasts.slice(0, 20).map(f => f.humidity),
-            borderColor: '#4ecdc4',
-            backgroundColor: 'rgba(78, 205, 196, 0.1)',
+            borderColor: accentColor,
+            backgroundColor: accentColor + '20',
             fill: true,
             tension: 0.4,
             pointRadius: 3,
-            pointHoverRadius: 5
+            pointHoverRadius: 5,
+            pointBackgroundColor: accentColor,
+            pointBorderColor: '#ffffff',
+            pointBorderWidth: 2
           }
         ]
       }
@@ -198,6 +230,9 @@ export default {
           day: 'numeric'
         })
       })
+      
+      const primaryColor = this.themeColors.primary
+      const secondaryColor = this.themeColors.secondary
 
       return {
         labels,
@@ -205,13 +240,17 @@ export default {
           {
             label: 'Wind Speed (m/s)',
             data: this.dailyForecasts.map(f => f.wind_speed),
-            backgroundColor: 'rgba(102, 126, 234, 0.8)',
+            backgroundColor: primaryColor + 'CC', // CC is hex for ~80% opacity
+            borderColor: primaryColor,
+            borderWidth: 1,
             yAxisID: 'y'
           },
           {
-            label: 'Pressure (hPa)',
+            label: 'Pressure (hPa ÷ 10)',
             data: this.dailyForecasts.map(f => f.pressure / 10), // Scale down for better visualization
-            backgroundColor: 'rgba(78, 205, 196, 0.8)',
+            backgroundColor: secondaryColor + 'CC',
+            borderColor: secondaryColor,
+            borderWidth: 1,
             yAxisID: 'y1'
           }
         ]
@@ -360,61 +399,63 @@ export default {
 
 <style scoped>
 .charts-container {
-  background: white;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 12px 24px -6px rgba(0, 0, 0, 0.1);
+  background: var(--color-surface-primary, #ffffff);
+  border-radius: var(--radius-xl, 0.75rem);
+  padding: var(--spacing-6, 1.5rem);
+  box-shadow: var(--shadow-3, 0 10px 15px -3px rgb(0 0 0 / 0.1));
+  border: 1px solid var(--color-border-primary, #e2e8f0);
 }
 
 .charts-header {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: var(--spacing-8, 2rem);
 }
 
 .charts-header h3 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #1f2937;
-  margin-bottom: 8px;
+  font-size: var(--text-xl, 1.25rem);
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-text-primary, #0f172a);
+  margin-bottom: var(--spacing-2, 0.5rem);
+  font-family: var(--font-display, inherit);
 }
 
 .charts-header p {
-  color: #6b7280;
-  font-size: 0.95rem;
+  color: var(--color-text-secondary, #475569);
+  font-size: var(--text-sm, 0.875rem);
 }
 
 .charts-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 24px;
+  gap: var(--spacing-6, 1.5rem);
 }
 
 .chart-card {
-  background: #f9fafb;
-  border-radius: 8px;
-  padding: 20px;
-  border: 1px solid #e5e7eb;
+  background: var(--color-surface-secondary, #f8fafc);
+  border-radius: var(--radius-md, 0.375rem);
+  padding: var(--spacing-5, 1.25rem);
+  border: 1px solid var(--color-border-secondary, #cbd5e1);
 }
 
 .chart-header {
   display: flex;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: var(--spacing-4, 1rem);
 }
 
 .chart-header h4 {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #374151;
+  gap: var(--spacing-2, 0.5rem);
+  font-size: var(--text-lg, 1.125rem);
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-text-primary, #0f172a);
 }
 
 .chart-icon {
   width: 20px;
   height: 20px;
-  color: #667eea;
+  color: var(--color-primary-500, #3b82f6);
 }
 
 .chart-wrapper {
@@ -426,30 +467,36 @@ export default {
 .weather-timeline {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--spacing-4, 1rem);
 }
 
 .timeline-item {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 12px;
-  background: white;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
+  gap: var(--spacing-4, 1rem);
+  padding: var(--spacing-3, 0.75rem);
+  background: var(--color-surface-primary, #ffffff);
+  border-radius: var(--radius-md, 0.375rem);
+  border: 1px solid var(--color-border-primary, #e2e8f0);
+  transition: all var(--duration-200, 200ms) var(--timing-ease, ease);
+}
+
+.timeline-item:hover {
+  box-shadow: var(--shadow-1, 0 1px 3px 0 rgb(0 0 0 / 0.1));
+  transform: translateY(-1px);
 }
 
 .timeline-date {
-  font-weight: 600;
-  color: #374151;
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-text-primary, #0f172a);
   min-width: 80px;
-  font-size: 0.9rem;
+  font-size: var(--text-sm, 0.875rem);
 }
 
 .timeline-content {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--spacing-3, 0.75rem);
   flex: 1;
 }
 
@@ -461,24 +508,25 @@ export default {
 .timeline-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--spacing-0-5, 0.125rem);
 }
 
 .timeline-temp {
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: #1f2937;
+  font-weight: var(--font-weight-semibold, 600);
+  font-size: var(--text-lg, 1.125rem);
+  color: var(--color-text-primary, #0f172a);
 }
 
 .timeline-desc {
-  color: #6b7280;
-  font-size: 0.9rem;
+  color: var(--color-text-secondary, #475569);
+  font-size: var(--text-sm, 0.875rem);
+  text-transform: capitalize;
 }
 
 .timeline-pop {
-  color: #3b82f6;
-  font-size: 0.85rem;
-  font-weight: 500;
+  color: var(--color-primary-500, #3b82f6);
+  font-size: var(--text-xs, 0.75rem);
+  font-weight: var(--font-weight-medium, 500);
 }
 
 /* Responsive Design */

@@ -13,6 +13,9 @@
               <p>Beautiful weather data with interactive charts</p>
             </div>
           </div>
+          <div class="header-actions">
+            <ThemeToggle />
+          </div>
         </div>
       </div>
     </header>
@@ -143,6 +146,7 @@
 <script>
 import axios from 'axios'
 import WeatherCharts from './components/WeatherCharts.vue'
+import ThemeToggle from './components/ThemeToggle.vue'
 import {
   Cloud,
   MapPin,
@@ -159,6 +163,7 @@ export default {
   name: 'WeatherDashboard',
   components: {
     WeatherCharts,
+    ThemeToggle,
     Cloud,
     MapPin,
     Search,
@@ -258,39 +263,45 @@ export default {
 /* Main Application Wrapper */
 .app {
   min-height: 100vh;
-  background-color: #f5f9ff;
+  background-color: var(--color-background-secondary, #f8fafc);
 }
 
 /* Container Styles */
 .container {
-  max-width: 1024px;
-  padding: 0 16px;
+  max-width: var(--grid-containers-4xl, 1024px);
+  padding: 0 var(--spacing-4, 1rem);
   margin: 0 auto;
 }
 
 /* Hero Header */
 .hero-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 20px 0;
+  background: var(--gradient-primary, linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%));
+  padding: var(--spacing-5, 1.25rem) 0;
+  color: var(--color-text-inverse, #ffffff);
 }
 
 .header-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: white;
+  color: inherit;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
 }
 
 .logo-section {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--spacing-3, 0.75rem);
 }
 
 .logo-icon {
   background-color: rgba(255, 255, 255, 0.2);
-  padding: 6px;
-  border-radius: 8px;
+  padding: var(--spacing-2, 0.5rem);
+  border-radius: var(--radius-md, 0.375rem);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -299,39 +310,42 @@ export default {
 .cloud-icon {
   width: 40px;
   height: 40px;
-  color: #fff;
+  color: currentColor;
 }
 
 .header-text {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--spacing-1, 0.25rem);
 }
 
 h1 {
-  font-size: 1.8em;
+  font-size: var(--text-2xl, 1.5rem);
   margin: 0;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold, 600);
+  font-family: var(--font-display, inherit);
 }
 
 p {
   margin: 0;
-  font-size: 0.9em;
+  font-size: var(--text-sm, 0.875rem);
+  opacity: 0.9;
 }
 
 /* Search Section */
 .search-section {
-  padding: 40px 0;
+  padding: var(--spacing-10, 2.5rem) 0;
 }
 
 .search-card {
-  background: white;
-  border-radius: 8px;
-  padding: 24px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  background: var(--color-surface-primary, #ffffff);
+  border-radius: var(--radius-lg, 0.5rem);
+  padding: var(--spacing-6, 1.5rem);
+  box-shadow: var(--shadow-2, 0 4px 6px -1px rgb(0 0 0 / 0.1));
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 1px solid var(--color-border-primary, #e2e8f0);
 }
 
 .input-group {
@@ -342,36 +356,41 @@ p {
 .input-icon {
   width: 24px;
   height: 24px;
-  color: #667eea;
-  margin-right: 8px;
+  color: var(--color-primary-500, #3b82f6);
+  margin-right: var(--spacing-2, 0.5rem);
 }
 
 .city-input {
   width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #ddd;
-  border-radius: 8px 0 0 8px;
-  font-size: 1em;
-  color: #333;
+  padding: var(--spacing-3, 0.75rem);
+  border: 1px solid var(--color-border-primary, #e2e8f0);
+  border-radius: var(--radius-md, 0.375rem) 0 0 var(--radius-md, 0.375rem);
+  font-size: var(--text-base, 1rem);
+  color: var(--color-text-primary, #0f172a);
+  background-color: var(--color-surface-primary, #ffffff);
+  min-width: 300px;
 }
 
 .search-btn {
-  padding: 10px 16px;
-  background-color: #667eea;
-  color: white;
-  font-size: 1em;
-  font-weight: 600;
+  padding: var(--spacing-3, 0.75rem) var(--spacing-4, 1rem);
+  background-color: var(--color-primary-500, #3b82f6);
+  color: var(--color-text-inverse, #ffffff);
+  font-size: var(--text-base, 1rem);
+  font-weight: var(--font-weight-semibold, 600);
   border: none;
-  border-radius: 0 8px 8px 0;
+  border-radius: 0 var(--radius-md, 0.375rem) var(--radius-md, 0.375rem) 0;
   cursor: pointer;
-  transition: background-color 0.3s ease;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--spacing-2, 0.5rem);
+}
+
+.search-btn:hover {
+  background-color: var(--color-primary-600, #2563eb);
 }
 
 .search-btn:disabled {
-  background-color: #b3c2f3;
+  background-color: var(--color-neutral-400, #9ca3af);
   cursor: not-allowed;
 }
 
@@ -395,50 +414,55 @@ p {
 
 /* Error Card */
 .error-card {
-  background: #ffe2e2;
-  border-left: 4px solid #ff6b6b;
-  padding: 16px 20px;
-  border-radius: 8px;
-  margin: 20px 0;
+  background: var(--color-error-100, #fee2e2);
+  border-left: 4px solid var(--color-error-500, #ef4444);
+  padding: var(--spacing-4, 1rem) var(--spacing-5, 1.25rem);
+  border-radius: var(--radius-md, 0.375rem);
+  margin: var(--spacing-5, 1.25rem) 0;
   display: flex;
-  gap: 16px;
+  gap: var(--spacing-4, 1rem);
   align-items: center;
+  border: 1px solid var(--color-error-200, #fecaca);
 }
 
 .error-icon {
   width: 32px;
   height: 32px;
-  color: #ff6b6b;
+  color: var(--color-error-500, #ef4444);
+  flex-shrink: 0;
 }
 
 .error-content h3 {
   margin: 0;
-  color: #ff6b6b;
-  font-weight: 600;
+  color: var(--color-error-600, #dc2626);
+  font-weight: var(--font-weight-semibold, 600);
+  font-size: var(--text-lg, 1.125rem);
 }
 
 .error-content p {
-  margin: 4px 0 0;
+  margin: var(--spacing-1, 0.25rem) 0 0;
+  color: var(--color-error-700, #b91c1c);
 }
 
 /* Weather Content */
 .weather-content {
   display: grid;
-  gap: 20px;
+  gap: var(--spacing-5, 1.25rem);
 }
 
 .current-weather {
-  background-color: white;
-  padding: 24px 32px;
-  border-radius: 8px;
+  background-color: var(--color-surface-primary, #ffffff);
+  padding: var(--spacing-6, 1.5rem) var(--spacing-8, 2rem);
+  border-radius: var(--radius-lg, 0.5rem);
   display: grid;
-  gap: 16px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05), 0 12px 24px -6px rgba(0,0,0,0.1);
+  gap: var(--spacing-4, 1rem);
+  box-shadow: var(--shadow-3, 0 10px 15px -3px rgb(0 0 0 / 0.1));
+  border: 1px solid var(--color-border-primary, #e2e8f0);
 }
 
 .weather-main-card {
   display: grid;
-  gap: 16px;
+  gap: var(--spacing-4, 1rem);
 }
 
 .weather-header {
@@ -448,14 +472,16 @@ p {
 }
 
 .location h2 {
-  font-size: 1.5em;
+  font-size: var(--text-xl, 1.25rem);
   margin: 0;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-text-primary, #0f172a);
 }
 
 .timestamp {
-  font-size: 0.9em;
-  color: #666;
+  font-size: var(--text-sm, 0.875rem);
+  color: var(--color-text-secondary, #475569);
+  margin-top: var(--spacing-1, 0.25rem);
 }
 
 .weather-icon img {
@@ -473,58 +499,78 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Inter', sans-serif;
-  font-size: 2.4em;
-  font-weight: 900;
+  font-family: var(--font-display, inherit);
+  font-size: var(--text-5xl, 3rem);
+  font-weight: var(--font-weight-black, 900);
+  color: var(--color-text-primary, #0f172a);
 }
 
 .temp-value {
-  margin-right: 8px;
+  margin-right: var(--spacing-2, 0.5rem);
 }
 
 .temp-unit {
   font-size: 0.6em;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium, 500);
 }
 
 .weather-details {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--spacing-1, 0.25rem);
+}
+
+.description {
+  font-size: var(--text-lg, 1.125rem);
+  font-weight: var(--font-weight-medium, 500);
+  color: var(--color-text-primary, #0f172a);
+  text-transform: capitalize;
 }
 
 .feels-like {
-  color: #444;
-  font-size: 0.9em;
+  color: var(--color-text-secondary, #475569);
+  font-size: var(--text-sm, 0.875rem);
 }
 
 .weather-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: var(--spacing-4, 1rem);
+  padding-top: var(--spacing-4, 1rem);
+  border-top: 1px solid var(--color-border-primary, #e2e8f0);
 }
 
 .stat-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--spacing-3, 0.75rem);
 }
 
 .stat-icon {
   width: 34px;
   height: 34px;
-  color: #667eea;
+  color: var(--color-primary-500, #3b82f6);
+  flex-shrink: 0;
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-0-5, 0.125rem);
 }
 
 .stat-value {
   display: block;
-  font-size: 1.1em;
-  font-weight: 600;
+  font-size: var(--text-lg, 1.125rem);
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-text-primary, #0f172a);
 }
 
 .stat-label {
-  font-size: 0.8em;
-  color: #666;
+  font-size: var(--text-xs, 0.75rem);
+  color: var(--color-text-tertiary, #64748b);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide, 0.025em);
 }
 </style>
 

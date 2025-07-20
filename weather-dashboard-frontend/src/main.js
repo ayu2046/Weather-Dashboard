@@ -17,6 +17,9 @@ import {
   Filler
 } from 'chart.js'
 
+// Import theme composable
+import { useTheme } from './composables/useTheme'
+
 // Register Chart.js components
 ChartJS.register(
   CategoryScale,
@@ -30,6 +33,10 @@ ChartJS.register(
   ArcElement,
   Filler
 )
+
+// Initialize theme system
+const { applyCSSVariables } = useTheme()
+applyCSSVariables()
 
 // Create Vue app
 const app = createApp(App)
