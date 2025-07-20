@@ -1,0 +1,18 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Sun -->
+  <circle cx="32" cy="28" r="8" fill="#FFC107" stroke="#FF9800" stroke-width="2"/>
+  
+  <!-- Sun rays -->
+  <path d="M32 10v4M32 42v4M50 28h-4M18 28h-4M45.66 16.34l-2.83 2.83M21.17 40.83l-2.83 2.83M45.66 39.66l-2.83-2.83M21.17 23.17l-2.83-2.83" 
+        stroke="#FF9800" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- Cloud -->
+  <ellipse cx="44" cy="36" rx="12" ry="8" fill="#E3F2FD" stroke="#2196F3" stroke-width="2"/>
+  <ellipse cx="36" cy="40" rx="8" ry="6" fill="#E3F2FD" stroke="#2196F3" stroke-width="2"/>
+  <ellipse cx="26" cy="38" rx="10" ry="7" fill="#E3F2FD" stroke="#2196F3" stroke-width="2"/>
+  
+  <!-- Rain drops -->
+  <circle cx="28" cy="50" r="1.5" fill="#2196F3"/>
+  <circle cx="36" cy="52" r="1.5" fill="#2196F3"/>
+  <circle cx="44" cy="50" r="1.5" fill="#2196F3"/>
+</svg>
