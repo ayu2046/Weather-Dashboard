@@ -3,7 +3,7 @@
 Weather Dashboard Backend - Flask Application Entry Point
 
 This module serves as the entry point for the Flask application.
-It creates and runs the Flask app with development settings enabled.
+It creates and runs the Flask app with both development and production support.
 """
 
 import os
@@ -13,8 +13,10 @@ from config import get_config
 # Create Flask application instance
 app = create_app()
 
+# For production deployment (Render, Heroku, etc.)
+# The WSGI server will import this module and use the 'app' variable
 if __name__ == '__main__':
-    # Get configuration
+    # Development server - only runs when script is executed directly
     config = get_config()
     debug_mode = config.DEBUG
     host = config.HOST
